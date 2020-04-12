@@ -1,4 +1,4 @@
-package utils
+package slug
 
 import (
 	"github.com/gosimple/slug"

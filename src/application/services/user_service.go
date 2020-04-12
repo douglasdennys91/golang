@@ -3,7 +3,8 @@ package services
 import (
 	"delivery-app/src/domain/entities"
 	"delivery-app/src/domain/repositories"
-	"delivery-app/src/infrastructure/utils"
+	"delivery-app/src/infrastructure/utils/encrypt"
+	slug2 "delivery-app/src/infrastructure/utils/slug"
 	"encoding/json"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
@@ -21,8 +22,8 @@ type IUserService interface {
 func (svc UserService) Saved(data []byte) (interface{}, error) {
 	var user *entities.User
 	json.Unmarshal(data, &user)
-	password, _ := utils.GenerateHash(user.Password)
-	slug := utils.RenderSLUG(user.Name)
+	password, _ := encrypt.GenerateHash(user.Password)
+	slug := slug2.RenderSLUG(user.Name)
 
 	user.Password = password
 	user.Slug = slug
@@ -44,7 +45,7 @@ func (svc UserService) Updated(id string, data []byte) (interface{}, error) {
 	var user *entities.User
 	json.Unmarshal(data, &user)
 
-	slug := utils.RenderSLUG(user.Name)
+	slug := slug2.RenderSLUG(user.Name)
 	user.Slug = slug
 
 	request, err := svc.UpdateUser(id, user)

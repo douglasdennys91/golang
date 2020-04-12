@@ -1,4 +1,4 @@
-package utils
+package jwt
 
 import (
 	"delivery-app/src/domain/entities"
